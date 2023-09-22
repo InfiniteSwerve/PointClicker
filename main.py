@@ -74,7 +74,7 @@ class CustomView(QGraphicsView):
 
     def draw_cross(self, x, y, size, angle, color):
         angle_rad = math.radians(angle)
-        pen.setWidth(2)
+        Qpen.setWidth(2)
         for dx, dy in [(size, 0), (0, size), (-size, 0), (0, -size)]:
             x1 = x + dx * math.cos(angle_rad) - dy * math.sin(angle_rad)
             y1 = y + dx * math.sin(angle_rad) + dy * math.cos(angle_rad)
