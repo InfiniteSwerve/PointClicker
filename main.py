@@ -74,11 +74,15 @@ class CustomView(QGraphicsView):
 
     def draw_cross(self, x, y, size, angle, color):
         angle_rad = math.radians(angle)
-        Qpen.setWidth(2)
+        pen = QPen(color)
+        color_with_alpha = QColor(color)
+        color_with_alpha.setAlpha(128)
+        pen.setColor(color_with_alpha)
+        pen.setWidth(1)
         for dx, dy in [(size, 0), (0, size), (-size, 0), (0, -size)]:
             x1 = x + dx * math.cos(angle_rad) - dy * math.sin(angle_rad)
             y1 = y + dx * math.sin(angle_rad) + dy * math.cos(angle_rad)
-            self.scene().addLine(x, y, x1, y1, QPen(color))
+            self.scene().addLine(x, y, x1, y1, pen)
 
     def redraw_scene(self):
         self.scene().clear()
@@ -90,17 +94,18 @@ class CustomView(QGraphicsView):
                 color = Qt.red
             else:
                 color = Qt.blue
+            pen = QPen(color)
+            pen.setWidth(1)
+            color_with_alpha = QColor(color)
+            color_with_alpha.setAlpha(128)
+            pen.setColor(color_with_alpha)
             for j, (x, y) in enumerate(points):
                 if j == len(self.all_sets_of_points[self.current_set_index]) - 1:
                     self.draw_cross(x, y, 10, 45, color)
                 else:
                     cross_size = 10
-                    self.scene().addLine(
-                        x - cross_size, y, x + cross_size, y, QPen(color)
-                    )
-                    self.scene().addLine(
-                        x, y - cross_size, x, y + cross_size, QPen(color)
-                    )
+                    self.scene().addLine(x - cross_size, y, x + cross_size, y, pen)
+                    self.scene().addLine(x, y - cross_size, x, y + cross_size, pen)
         self.update()
 
     def mousePressEvent(self, event):
